@@ -1,4 +1,5 @@
 import { Zap, ArrowRight, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -32,12 +33,14 @@ const Home = () => {
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-wrap gap-4">
-              <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-medium shadow-lg hover:opacity-90 transition-opacity flex items-center gap-2 group">
-                Shop Collection
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="px-6 py-3 border-2 border-gray-200 text-gray-900 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+            <div className="flex flex-wrap gap-4 ">
+              <Link to={"/product"}>
+                <button className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg cursor-pointer font-medium shadow-lg hover:opacity-90 transition-opacity flex items-center gap-2 group">
+                  Shop Collection
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
+              <button className="px-6 py-3 cursor-pointer border-2 border-gray-200 text-gray-900 rounded-lg font-medium hover:bg-gray-50 transition-colors">
                 Explore Deals
               </button>
             </div>
@@ -71,7 +74,7 @@ const Home = () => {
               {/* Replace this with your actual image */}
               <div className="w-full aspect-[4/3] bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
                 <img
-                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80"
+                  src="https://i.pinimg.com/1200x/99/64/a2/9964a202c67115b1f40714082848c312.jpg"
                   alt="Premium electronics collection"
                   className="w-full h-full object-cover"
                 />

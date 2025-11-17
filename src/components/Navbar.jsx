@@ -10,7 +10,7 @@ import {
   Moon,
 } from "lucide-react";
 import logo from "../assets/logona.png";
-import {categoriesNav } from "../data";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -25,17 +25,27 @@ export default function Navbar() {
     }
   };
 
+  // Map category names to route paths
+  const categoriesNav = [
+    { name: "Home", path: "/home" },
+    { name: "Products", path: "/product" },
+    { name: "About Us", path: "/about-us" },
+    { name: "Contact Us", path: "/contact-us" },
+  ];
+
   return (
-    <div className="w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white shadow-md">
+    <div className="w-full bg-gradient-to-r sticky top-0 z-50 from-purple-600 via-indigo-600 to-blue-600 text-white shadow-md">
       {/* TOP NAV */}
       <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
         {/* LEFT — LOGO */}
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-xl hover:cursor-pointer bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg">
-            <img src={logo} className="w-6 h-6" alt="logo" />
+        <Link to="/home">
+          <div className="flex items-center gap-2 ">
+            <div className="w-10 h-10 rounded-xl hover:cursor-pointer bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg">
+              <img src={logo} className="w-6 h-6" alt="logo" />
+            </div>
+            <h1 className="text-xl font-semibold">ElectroHub</h1>
           </div>
-          <h1 className="text-xl font-semibold">ElectroHub</h1>
-        </div>
+        </Link>
 
         {/* MIDDLE — SEARCH BAR (hidden on mobile) */}
         <div className="hidden md:flex items-center w-full max-w-xl bg-white/20 backdrop-blur-md rounded-full px-4 py-2 mx-10">
@@ -49,7 +59,6 @@ export default function Navbar() {
 
         {/* RIGHT — ICONS */}
         <div className="hidden md:flex items-center gap-6">
-          {/* Dark/Light Mode Toggle */}
           <button
             onClick={toggleDarkMode}
             className="w-6 h-6 text-white cursor-pointer"
@@ -61,9 +70,9 @@ export default function Navbar() {
             )}
           </button>
 
-          <User className="w-6 h-6 text-white cursor-pointer" />
           <Heart className="w-6 h-6 text-white cursor-pointer" />
           <ShoppingCart className="w-6 h-6 text-white cursor-pointer" />
+          <User className="w-6 h-6 text-white cursor-pointer" />
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -92,7 +101,6 @@ export default function Navbar() {
 
             {/* Icons */}
             <div className="flex items-center gap-6 pt-2">
-              {/* Dark/Light Toggle in mobile menu */}
               <button
                 onClick={toggleDarkMode}
                 className="w-6 h-6 text-white cursor-pointer"
@@ -112,14 +120,16 @@ export default function Navbar() {
             {/* Categories */}
             <div className="flex flex-col gap-3 pt-4">
               {categoriesNav.map((cat, i) => (
-                <button
+                <Link
                   key={i}
+                  to={cat.path}
                   className={`text-left hover:text-yellow-300 ${
                     i === 0 ? "font-semibold" : ""
                   }`}
+                  onClick={() => setOpen(false)} // close mobile menu after click
                 >
-                  {cat}
-                </button>
+                  {cat.name}
+                </Link>
               ))}
             </div>
           </>
@@ -130,14 +140,15 @@ export default function Navbar() {
       <div className="hidden md:block bg-white/10 backdrop-blur-md border-t border-white/20">
         <div className="max-w-7xl mx-auto flex gap-10 px-6 py-3 text-sm">
           {categoriesNav.map((cat, i) => (
-            <button
+            <Link
               key={i}
+              to={cat.path}
               className={`hover:text-yellow-300 transition hover:cursor-pointer ${
                 i === 0 ? "font-semibold" : ""
               }`}
             >
-              {cat}
-            </button>
+              {cat.name}
+            </Link>
           ))}
         </div>
       </div>
