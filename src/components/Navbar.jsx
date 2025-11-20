@@ -1,31 +1,33 @@
 import { useState } from "react";
-import {
-  Search,
-  User,
-  Heart,
-  ShoppingCart,
-  Menu,
-  X,
-  Sun,
-  Moon,
-} from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { Search, Heart, ShoppingCart, Menu, X, Sun, Moon } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom"; // added useNavigate
 import logo from "../assets/logona.png";
-import { Link } from "react-router-dom";
+import { setSearchQuery } from "../features/search/searchSlice";
+import { logoutUser } from "../features/auth/authSlice"; // import logout
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
+  const cartItems = useSelector((state) => state.cart.items);
+  const favoriteItems = useSelector((state) => state.favorite.items);
+  const searchQuery = useSelector((state) => state.search.query);
+  const user = useSelector((state) => state.auth.user); // get current user
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // for redirect after logout
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
-    if (!darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark");
   };
 
-  // Map category names to route paths
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/"); // redirect to home
+  };
+
   const categoriesNav = [
     { name: "Home", path: "/home" },
     { name: "Products", path: "/product" },
@@ -37,32 +39,32 @@ export default function Navbar() {
     <div className="w-full bg-gradient-to-r sticky top-0 z-50 from-purple-600 via-indigo-600 to-blue-600 text-white shadow-md">
       {/* TOP NAV */}
       <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
-        {/* LEFT — LOGO */}
+        {/* Logo */}
         <Link to="/home">
-          <div className="flex items-center gap-2 ">
-            <div className="w-10 h-10 rounded-xl hover:cursor-pointer bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg">
               <img src={logo} className="w-6 h-6" alt="logo" />
             </div>
             <h1 className="text-xl font-semibold">ElectroHub</h1>
           </div>
         </Link>
 
-        {/* MIDDLE — SEARCH BAR (hidden on mobile) */}
+        {/* Desktop Search */}
         <div className="hidden md:flex items-center w-full max-w-xl bg-white/20 backdrop-blur-md rounded-full px-4 py-2 mx-10">
           <Search className="w-5 h-5 text-white" />
           <input
             type="text"
             placeholder="Search for products..."
+            value={searchQuery}
+            onChange={(e) => dispatch(setSearchQuery(e.target.value))}
             className="w-full bg-transparent outline-none ml-2 text-sm placeholder-white"
           />
         </div>
 
-        {/* RIGHT — ICONS */}
+        {/* Desktop Icons */}
         <div className="hidden md:flex items-center gap-6">
-          <button
-            onClick={toggleDarkMode}
-            className="w-6 h-6 text-white cursor-pointer"
-          >
+          {/* Dark Mode */}
+          <button onClick={toggleDarkMode} className="w-6 h-6 cursor-pointer">
             {darkMode ? (
               <Sun className="w-6 h-6" />
             ) : (
@@ -70,12 +72,58 @@ export default function Navbar() {
             )}
           </button>
 
-          <Heart className="w-6 h-6 text-white cursor-pointer" />
-          <ShoppingCart className="w-6 h-6 text-white cursor-pointer" />
-          <User className="w-6 h-6 text-white cursor-pointer" />
+          {/* Favorites */}
+          <Link to="/favorites" className="relative cursor-pointer">
+            <Heart className="w-6 h-6 text-white" />
+            {favoriteItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                {favoriteItems.length}
+              </span>
+            )}
+          </Link>
+
+          {/* Cart */}
+          <Link to="/cart" className="relative cursor-pointer">
+            <ShoppingCart className="w-6 h-6 text-white" />
+            {cartItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
+          </Link>
+
+          {/* Login/Register or Logout */}
+          {user ? (
+            <>
+              <span className="text-white font-medium">
+                {user.displayName || user.email}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-1.5 bg-red-600 rounded-full hover:bg-red-700 transition"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="px-4 py-1.5 bg-white/20 rounded-full hover:bg-white/30 transition"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="px-4 py-1.5 bg-white rounded-full text-purple-700 font-semibold hover:bg-gray-200 transition"
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
 
-        {/* MOBILE MENU BUTTON */}
+        {/* Mobile Toggle */}
         <button onClick={() => setOpen(!open)} className="md:hidden text-white">
           {open ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
         </button>
@@ -89,21 +137,24 @@ export default function Navbar() {
       >
         {open && (
           <>
-            {/* Search */}
+            {/* Mobile Search */}
             <div className="flex items-center bg-white/20 rounded-full px-4 py-2">
               <Search className="w-5 h-5 text-white" />
               <input
                 type="text"
                 placeholder="Search for products..."
+                value={searchQuery}
+                onChange={(e) => dispatch(setSearchQuery(e.target.value))}
                 className="w-full bg-transparent outline-none ml-2 text-sm placeholder-white"
               />
             </div>
 
-            {/* Icons */}
+            {/* Mobile Icons */}
             <div className="flex items-center gap-6 pt-2">
+              {/* Dark Mode */}
               <button
                 onClick={toggleDarkMode}
-                className="w-6 h-6 text-white cursor-pointer"
+                className="w-6 h-6 cursor-pointer"
               >
                 {darkMode ? (
                   <Sun className="w-6 h-6" />
@@ -112,12 +163,73 @@ export default function Navbar() {
                 )}
               </button>
 
-              <User className="w-6 h-6 cursor-pointer" />
-              <Heart className="w-6 h-6 cursor-pointer" />
-              <ShoppingCart className="w-6 h-6 cursor-pointer" />
+              {/* Favorites */}
+              <Link
+                to="/favorites"
+                className="relative cursor-pointer"
+                onClick={() => setOpen(false)}
+              >
+                <Heart className="w-6 h-6 text-white" />
+                {favoriteItems.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                    {favoriteItems.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* Cart */}
+              <Link
+                to="/cart"
+                className="relative cursor-pointer"
+                onClick={() => setOpen(false)}
+              >
+                <ShoppingCart className="w-6 h-6 text-white" />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Link>
             </div>
 
-            {/* Categories */}
+            {/* Mobile Login + Register or Logout */}
+            <div className="flex flex-col gap-3 pt-2">
+              {user ? (
+                <>
+                  <span className="text-white text-center font-medium">
+                    {user.displayName || user.email}
+                  </span>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setOpen(false);
+                    }}
+                    className="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 transition text-center"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/register"
+                    className="px-4 py-2 bg-white rounded-lg text-purple-700 font-semibold hover:bg-gray-200 transition text-center"
+                    onClick={() => setOpen(false)}
+                  >
+                    Register
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition text-center"
+                    onClick={() => setOpen(false)}
+                  >
+                    Login
+                  </Link>
+                </>
+              )}
+            </div>
+
+            {/* Mobile Nav Links */}
             <div className="flex flex-col gap-3 pt-4">
               {categoriesNav.map((cat, i) => (
                 <Link
@@ -126,7 +238,7 @@ export default function Navbar() {
                   className={`text-left hover:text-yellow-300 ${
                     i === 0 ? "font-semibold" : ""
                   }`}
-                  onClick={() => setOpen(false)} // close mobile menu after click
+                  onClick={() => setOpen(false)}
                 >
                   {cat.name}
                 </Link>
@@ -136,7 +248,7 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* DESKTOP CATEGORY BAR */}
+      {/* DESKTOP CATEGORY MENU */}
       <div className="hidden md:block bg-white/10 backdrop-blur-md border-t border-white/20">
         <div className="max-w-7xl mx-auto flex gap-10 px-6 py-3 text-sm">
           {categoriesNav.map((cat, i) => (

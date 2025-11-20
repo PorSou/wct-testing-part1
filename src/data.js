@@ -2,7 +2,7 @@
 
 export const categoriesNav = ["Home", "Products", "About Us", "Contact Us"];
 
-// category
+// fake category
 export const categories = [
   {
     name: "Smartphones",
@@ -61,6 +61,7 @@ export const features = [
 // hotDeals
 export const hotDeals = [
   {
+    id: 1,
     category: "SMARTPHONES",
     name: "iPhone 15 Pro Max",
     image:
@@ -71,6 +72,7 @@ export const hotDeals = [
     tag: "Hot Deal",
   },
   {
+    id: 2,
     category: "LAPTOPS",
     name: "MacBook Pro 16-inch M3",
     image:
@@ -80,6 +82,7 @@ export const hotDeals = [
     tag: "New Arrival",
   },
   {
+    id: 3,
     category: "ACCESSORIES",
     name: "Sony WH-1000XM5 Headphones",
     image:
@@ -89,6 +92,7 @@ export const hotDeals = [
     reviews: 892,
   },
   {
+    id: 4,
     category: "TVs",
     name: "Samsung Galaxy S24 Ultra",
     image:
@@ -101,6 +105,7 @@ export const hotDeals = [
 // Extended hot deals data
 export const allHotDeals = [
   {
+    id: 1,
     category: "SMARTPHONES",
     name: "iPhone 15 Pro Max",
     image:
@@ -111,6 +116,7 @@ export const allHotDeals = [
     tag: "Hot Deal",
   },
   {
+    id: 2,
     category: "LAPTOPS",
     name: "MacBook Pro 16-inch M3",
     image:
@@ -120,6 +126,7 @@ export const allHotDeals = [
     tag: "New Arrival",
   },
   {
+    id: 3,
     category: "ACCESSORIES",
     name: "Sony WH-1000XM5 Headphones",
     image:
@@ -129,6 +136,7 @@ export const allHotDeals = [
     reviews: 892,
   },
   {
+    id: 4,
     category: "TVS",
     name: "Samsung Galaxy S24 Ultra",
     image:
@@ -137,6 +145,7 @@ export const allHotDeals = [
     reviews: 543,
   },
   {
+    id: 5,
     category: "SMARTPHONES",
     name: "Samsung Galaxy Z Fold 5",
     image:
@@ -147,6 +156,7 @@ export const allHotDeals = [
     tag: "Limited Offer",
   },
   {
+    id: 6,
     category: "LAPTOPS",
     name: "Dell XPS 15",
     image:
@@ -155,6 +165,7 @@ export const allHotDeals = [
     reviews: 412,
   },
   {
+    id: 7,
     category: "ACCESSORIES",
     name: "Apple AirPods Pro 2",
     image:
@@ -165,6 +176,7 @@ export const allHotDeals = [
     tag: "Best Seller",
   },
   {
+    id: 8,
     category: "TVS",
     name: "LG OLED C3 55-inch",
     image:
@@ -174,6 +186,7 @@ export const allHotDeals = [
     reviews: 356,
   },
   {
+    id: 9,
     category: "SMARTPHONES",
     name: "Google Pixel 8 Pro",
     image:
@@ -183,6 +196,7 @@ export const allHotDeals = [
     tag: "New Arrival",
   },
   {
+    id: 10,
     category: "LAPTOPS",
     name: "ASUS ROG Zephyrus G14",
     image:
@@ -193,6 +207,7 @@ export const allHotDeals = [
     tag: "Gaming",
   },
   {
+    id: 11,
     category: "ACCESSORIES",
     name: "Logitech MX Master 3S",
     image:
@@ -201,6 +216,7 @@ export const allHotDeals = [
     reviews: 734,
   },
   {
+    id: 12,
     category: "TVS",
     name: "Sony Bravia X90L 65-inch",
     image:
@@ -209,6 +225,7 @@ export const allHotDeals = [
     reviews: 421,
   },
   {
+    id: 13,
     category: "SMARTPHONES",
     name: "OnePlus 11 5G",
     image:
@@ -219,6 +236,7 @@ export const allHotDeals = [
     tag: "Hot Deal",
   },
   {
+    id: 14,
     category: "LAPTOPS",
     name: "HP Spectre x360",
     image:
@@ -227,6 +245,7 @@ export const allHotDeals = [
     reviews: 276,
   },
   {
+    id: 15,
     category: "ACCESSORIES",
     name: "Razer BlackWidow V3",
     image:
@@ -236,6 +255,7 @@ export const allHotDeals = [
     reviews: 892,
   },
   {
+    id: 16,
     category: "TVS",
     name: "TCL 6-Series 4K QLED",
     image:
@@ -245,6 +265,7 @@ export const allHotDeals = [
     tag: "Best Value",
   },
   {
+    id: 17,
     category: "SMARTPHONES",
     name: "Xiaomi 13 Pro",
     image:
@@ -254,6 +275,7 @@ export const allHotDeals = [
     reviews: 445,
   },
   {
+    id: 18,
     category: "LAPTOPS",
     name: "Lenovo ThinkPad X1 Carbon",
     image:
@@ -263,6 +285,7 @@ export const allHotDeals = [
     tag: "Business",
   },
   {
+    id: 19,
     category: "ACCESSORIES",
     name: "Samsung T7 Shield 2TB SSD",
     image:
@@ -272,6 +295,7 @@ export const allHotDeals = [
     reviews: 657,
   },
   {
+    id: 20,
     category: "TVS",
     name: "Hisense U8K 65-inch",
     image:
@@ -280,6 +304,7 @@ export const allHotDeals = [
     reviews: 298,
   },
   {
+    id: 21,
     category: "SMARTPHONES",
     name: "Motorola Edge 40 Pro",
     image:
@@ -289,6 +314,7 @@ export const allHotDeals = [
     tag: "New Arrival",
   },
   {
+    id: 22,
     category: "LAPTOPS",
     name: "Microsoft Surface Laptop 5",
     image:
@@ -298,6 +324,7 @@ export const allHotDeals = [
     reviews: 412,
   },
   {
+    id: 23,
     category: "ACCESSORIES",
     name: "Anker PowerCore 26800mAh",
     image:
@@ -307,6 +334,7 @@ export const allHotDeals = [
     tag: "Best Seller",
   },
   {
+    id: 24,
     category: "TVS",
     name: "Vizio M-Series Quantum",
     image:
@@ -316,6 +344,7 @@ export const allHotDeals = [
     reviews: 267,
   },
   {
+    id: 25,
     category: "SMARTPHONES",
     name: "Nothing Phone (2)",
     image:
@@ -324,6 +353,7 @@ export const allHotDeals = [
     reviews: 389,
   },
   {
+    id: 26,
     category: "LAPTOPS",
     name: "Acer Swift X",
     image:
@@ -333,6 +363,7 @@ export const allHotDeals = [
     reviews: 334,
   },
   {
+    id: 27,
     category: "ACCESSORIES",
     name: "HyperX Cloud Alpha",
     image:
@@ -342,6 +373,7 @@ export const allHotDeals = [
     tag: "Gaming",
   },
   {
+    id: 28,
     category: "TVS",
     name: "Roku Plus Series 75-inch",
     image:
@@ -350,6 +382,7 @@ export const allHotDeals = [
     reviews: 456,
   },
   {
+    id: 29,
     category: "SMARTPHONES",
     name: "ASUS ROG Phone 7",
     image:
@@ -360,6 +393,7 @@ export const allHotDeals = [
   },
 
   {
+    id: 30,
     category: "SMARTPHONES",
     name: "iPhone 15 Mini",
     image:
@@ -370,6 +404,7 @@ export const allHotDeals = [
     tag: "Hot Deal",
   },
   {
+    id: 31,
     category: "LAPTOPS",
     name: "MacBook Air M3",
     image:
@@ -378,6 +413,7 @@ export const allHotDeals = [
     reviews: 154,
   },
   {
+    id: 32,
     category: "ACCESSORIES",
     name: "Bose QuietComfort 45",
     image:
@@ -388,6 +424,7 @@ export const allHotDeals = [
     tag: "Best Seller",
   },
   {
+    id: 33,
     category: "TVS",
     name: "Samsung QN90B 65-inch",
     image:
@@ -396,6 +433,7 @@ export const allHotDeals = [
     reviews: 321,
   },
   {
+    id: 34,
     category: "SMARTPHONES",
     name: "Google Pixel 9",
     image:
@@ -404,6 +442,7 @@ export const allHotDeals = [
     reviews: 215,
   },
   {
+    id: 35,
     category: "LAPTOPS",
     name: "Dell Inspiron 16",
     image:
@@ -413,6 +452,7 @@ export const allHotDeals = [
     tag: "New Arrival",
   },
   {
+    id: 36,
     category: "ACCESSORIES",
     name: "Apple Watch Series 9",
     image:
@@ -421,6 +461,7 @@ export const allHotDeals = [
     reviews: 512,
   },
   {
+    id: 37,
     category: "TVS",
     name: "LG NanoCell 50-inch",
     image:
@@ -430,6 +471,7 @@ export const allHotDeals = [
     tag: "Limited Offer",
   },
   {
+    id: 38,
     category: "SMARTPHONES",
     name: "OnePlus 12",
     image:
@@ -438,6 +480,7 @@ export const allHotDeals = [
     reviews: 198,
   },
   {
+    id: 39,
     category: "LAPTOPS",
     name: "HP Pavilion 15",
     image:
@@ -446,6 +489,7 @@ export const allHotDeals = [
     reviews: 164,
   },
   {
+    id: 40,
     category: "ACCESSORIES",
     name: "Logitech G502 Mouse",
     image:
@@ -455,6 +499,7 @@ export const allHotDeals = [
     tag: "Gaming",
   },
   {
+    id: 41,
     category: "TVS",
     name: "Sony A90K OLED",
     image:
@@ -464,6 +509,7 @@ export const allHotDeals = [
     tag: "Premium",
   },
   {
+    id: 42,
     category: "SMARTPHONES",
     name: "Samsung Galaxy A74",
     image:
@@ -472,6 +518,7 @@ export const allHotDeals = [
     reviews: 145,
   },
   {
+    id: 43,
     category: "LAPTOPS",
     name: "Lenovo Yoga 9i",
     image:
@@ -480,6 +527,7 @@ export const allHotDeals = [
     reviews: 214,
   },
   {
+    id: 44,
     category: "ACCESSORIES",
     name: "Beats Studio Buds",
     image:
@@ -488,6 +536,7 @@ export const allHotDeals = [
     reviews: 523,
   },
   {
+    id: 45,
     category: "TVS",
     name: "TCL 8-Series 75-inch",
     image:
@@ -496,6 +545,7 @@ export const allHotDeals = [
     reviews: 332,
   },
   {
+    id: 46,
     category: "SMARTPHONES",
     name: "Motorola Moto G Power",
     image:
@@ -504,6 +554,7 @@ export const allHotDeals = [
     reviews: 112,
   },
   {
+    id: 47,
     category: "LAPTOPS",
     name: "Acer Predator Helios 300",
     image:
@@ -513,6 +564,7 @@ export const allHotDeals = [
     tag: "Gaming",
   },
   {
+    id: 48,
     category: "ACCESSORIES",
     name: "Samsung Galaxy Buds 2",
     image:
@@ -521,6 +573,7 @@ export const allHotDeals = [
     reviews: 674,
   },
   {
+    id: 49,
     category: "TVS",
     name: "Hisense 75-inch U9H",
     image:
@@ -529,6 +582,7 @@ export const allHotDeals = [
     reviews: 245,
   },
   {
+    id: 50,
     category: "SMARTPHONES",
     name: "Nokia X30",
     image:
@@ -537,6 +591,7 @@ export const allHotDeals = [
     reviews: 189,
   },
   {
+    id: 51,
     category: "LAPTOPS",
     name: "MSI Creator Z16",
     image:
@@ -546,6 +601,7 @@ export const allHotDeals = [
     tag: "Premium",
   },
   {
+    id: 52,
     category: "ACCESSORIES",
     name: "Corsair K95 Keyboard",
     image:
@@ -555,6 +611,7 @@ export const allHotDeals = [
     tag: "Gaming",
   },
   {
+    id: 53,
     category: "TVS",
     name: "Vizio P-Series 65-inch",
     image:
@@ -563,6 +620,7 @@ export const allHotDeals = [
     reviews: 314,
   },
   {
+    id: 54,
     category: "SMARTPHONES",
     name: "Realme GT 3",
     image:
@@ -571,6 +629,7 @@ export const allHotDeals = [
     reviews: 198,
   },
   {
+    id: 55,
     category: "LAPTOPS",
     name: "Razer Blade 15",
     image:
@@ -579,19 +638,84 @@ export const allHotDeals = [
     reviews: 298,
     tag: "Gaming",
   },
+  {
+    id: 56,
+    category: "HEADPHONES",
+    name: "Beats Studio3 Wireless",
+    image:
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=500&h=500&fit=crop",
+    price: 349.99,
+    reviews: 210,
+    tag: "New Arrival",
+  },
+  {
+    id: 57,
+    category: "HEADPHONES",
+    name: "Bose Noise Cancelling Headphones 700",
+    image:
+      "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=500&h=500&fit=crop",
+    price: 379.99,
+    oldPrice: 429.99,
+    reviews: 342,
+  },
+
+  // CAMERAS
+  {
+    id:58,
+    category: "CAMERAS",
+    name: "Canon EOS R6",
+    image:
+      "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500&h=500&fit=crop",
+    price: 2499.99,
+    reviews: 123,
+    tag: "Hot Deal",
+  },
+  {
+    id:59,
+    category: "CAMERAS",
+    name: "Sony Alpha a7 IV",
+    image:
+      "https://images.unsplash.com/photo-1519183071298-a2962be54afa?w=500&h=500&fit=crop",
+    price: 2799.99,
+    reviews: 98,
+  },
+
+  // SMARTWATCHS
+  {
+    id:60,
+    category: "SMARTWATCHS",
+    name: "Apple Watch Series 9",
+    image:
+      "https://images.unsplash.com/photo-1600950492425-dc08e29a12e2?w=500&h=500&fit=crop",
+    price: 399.99,
+    reviews: 512,
+    tag: "Best Seller",
+  },
+  {
+    id:61,
+    category: "SMARTWATCHS",
+    name: "Samsung Galaxy Watch 6",
+    image:
+      "https://images.unsplash.com/photo-1616628189483-7f9f3f914bb4?w=500&h=500&fit=crop",
+    price: 349.99,
+    reviews: 278,
+  },
 ];
+import SivEiiImage from "./assets/eii.jpg";
+import ChanTheaImage from "./assets/chanthea.jpg";
+import porporImage from "./assets/porpor.jpg";
 
 // about us
 export const teamMembers = [
   {
     name: "Por Sou",
     role: "Front End Developer",
-    img: "https://i.pinimg.com/1200x/93/b3/f1/93b3f1e3f5bbc117b9df2589437447cb.jpg",
+    img: porporImage,
   },
   {
     name: "Siv Eii",
     role: "Front End Developer",
-    img: "https://i.pinimg.com/1200x/93/b3/f1/93b3f1e3f5bbc117b9df2589437447cb.jpg",
+    img: SivEiiImage,
   },
   {
     name: "Seth Yaa",
@@ -601,6 +725,6 @@ export const teamMembers = [
   {
     name: "Chan Thea",
     role: "Front End Developer",
-    img: "https://i.pinimg.com/1200x/93/b3/f1/93b3f1e3f5bbc117b9df2589437447cb.jpg",
+    img: ChanTheaImage,
   },
 ];
