@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { auth } from "./firebase/firebaseConfig";
 import { logoutUser, setUser } from "./features/auth/authSlice";
 import CheckoutPage from "./pages/CheckoutPage";
+import OrderHistory from "./pages/OrderHistory";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/history" element={<OrderHistory />} />
       </Routes>
       <Footer />
     </BrowserRouter>

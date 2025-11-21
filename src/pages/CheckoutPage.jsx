@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { clearCart } from "../features/cart/cartSlice";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
+import { removeSelectedItems } from "../features/cart/cartSlice";
+import { addOrder } from "../features/order/orderSlice";
 import Swal from "sweetalert2";
 
 const CheckoutPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const user = useSelector((state) => state.auth.user);
-  const { items: cartItems } = useSelector((state) => state.cart);
 
-  // Use dummy item if cart is empty for testing
+  // Get selected items from ShoppingCartPage
+  const selectedProducts = location.state?.selectedProducts || [];
+
   const items =
-    cartItems.length > 0
-      ? cartItems
+    selectedProducts.length > 0
+      ? selectedProducts
       : [
           {
             id: 1,
@@ -23,6 +27,13 @@ const CheckoutPage = () => {
           },
         ];
 
+  const subtotal = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const shipping = items.length > 0 ? 10.0 : 0.0;
+  const total = subtotal + shipping;
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: user?.email || "",
@@ -32,43 +43,43 @@ const CheckoutPage = () => {
     zipCode: "",
   });
 
-  const subtotal = items.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  const shipping = items.length > 0 ? 10.0 : 0.0;
-  const total = subtotal + shipping;
-
   if (!user) {
-    // Protect page if accessed directly
     return <Navigate to="/login?redirect=checkout" />;
   }
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Checkout Info:", formData);
+    const orderData = {
+      id: Date.now(),
+      items,
+      total,
+      date: new Date().toLocaleString(),
+      shippingInfo: formData,
+    };
 
-    dispatch(clearCart());
-    setFormData({
-      fullName: "",
-      email: user?.email || "",
-      phone: "",
-      address: "",
-      city: "",
-      zipCode: "",
-    });
+    dispatch(addOrder(orderData));
+
+    // 🚀 Remove ONLY the selected items, not all cart items
+    dispatch(removeSelectedItems(items.map((item) => item.id)));
 
     Swal.fire({
-      title: "Order Placed ✅",
-      text: `Your order of $${total.toFixed(2)} has been placed successfully!`,
+      toast: true,
+      position: "top-end",
       icon: "success",
-      timer: 2000,
+      title: `Your order of $${total.toFixed(2)} has been placed!`,
       showConfirmButton: false,
+      timer: 3000,
       timerProgressBar: true,
+      background: "linear-gradient(90deg, #7f00ff, #00d2ff)",
+      color: "#fff",
+      customClass: { popup: "rounded-md shadow-lg px-4 py-2 mt-30" },
+    }).then(() => {
+      navigate("/history");
     });
   };
 

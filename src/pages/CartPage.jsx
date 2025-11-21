@@ -44,12 +44,12 @@ export default function ShoppingCartPage() {
   // Handle proceed
   const handleProceed = () => {
     if (!user || Object.keys(user).length === 0) {
-      // Redirect to login if user not logged in, with redirect query
       navigate("/login?redirect=checkout");
     } else if (selectedItems.length === 0) {
       alert("Please select at least one item to proceed.");
     } else {
-      navigate("/checkout");
+      // Pass selected products to checkout page
+      navigate("/checkout", { state: { selectedProducts } });
     }
   };
 

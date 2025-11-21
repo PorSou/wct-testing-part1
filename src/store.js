@@ -11,31 +11,28 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-// Reducers
 import cartReducer from "./features/cart/cartSlice";
 import favoriteReducer from "./features/favorite/favoriteSlice";
 import searchReducer from "./features/search/searchSlice";
-import authReducer from "./features/auth/authSlice"; // 🔹 Firebase Authentication
+import authReducer from "./features/auth/authSlice";
+import orderReducer from "./features/order/orderSlice";
 
-// Persist config
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "favorite"], // 🔹 auth is NOT persisted (security & freshness)
+  whitelist: ["cart", "favorite", "order"], // 👈 Added order here
 };
 
-// Combine reducers
 const rootReducer = combineReducers({
   cart: cartReducer,
   favorite: favoriteReducer,
   search: searchReducer,
-  auth: authReducer, // 🔹 Auth works normally (not persisted)
+  auth: authReducer, // 🔹 Auth is NOT persisted (Firebase handles it)
+  order: orderReducer, // 🔹 Now persisted
 });
 
-// Apply persist
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Store configuration
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
@@ -46,7 +43,5 @@ export const store = configureStore({
     }),
 });
 
-// Persistor
 export const persistor = persistStore(store);
-
 export default store;

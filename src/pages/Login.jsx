@@ -14,36 +14,49 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get redirect query (e.g., "/checkout")
+  // Redirect after login
   const redirect = new URLSearchParams(location.search).get("redirect") || "/";
 
+  // Email Login Function
   const handleEmailLogin = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      alert("Please enter email and password.");
+      return;
+    }
+    setLoading(true);
     try {
       const res = await loginWithEmail(email, password);
       dispatch(setUser(res.user));
-      navigate(redirect); // redirect after login
+      navigate(redirect);
     } catch (err) {
       alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Social Login
   const handleProviderLogin = async (provider) => {
+    setLoading(true);
     try {
       let res;
       if (provider === "google") res = await loginWithGoogle();
-      else if (provider === "github") res = await loginWithGithub();
-      else if (provider === "facebook") res = await loginWithFacebook();
+      if (provider === "github") res = await loginWithGithub();
+      if (provider === "facebook") res = await loginWithFacebook();
 
       dispatch(setUser(res.user));
-      navigate(redirect); // redirect after login
+      navigate(redirect);
     } catch (err) {
       alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,7 +71,7 @@ export default function Login() {
       }}
     >
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white/70 backdrop-blur-sm rounded-2xl shadow-2xl p-8 lg:p-10">
-        {/* Left side */}
+        {/* Left side - unchanged */}
         <div className="hidden lg:flex flex-col items-center justify-center text-center">
           <div className="text-4xl font-bold text-gray-800 mb-4">
             Welcome to
@@ -74,7 +87,7 @@ export default function Login() {
           />
         </div>
 
-        {/* Right side */}
+        {/* Right side - unchanged */}
         <div className="bg-white rounded-2xl p-8">
           <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
             Login
@@ -120,9 +133,10 @@ export default function Login() {
           {/* Login button */}
           <button
             onClick={handleEmailLogin}
+            disabled={loading}
             className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 rounded-full transition hover:shadow-lg mb-6"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
 
           {/* Social login */}
