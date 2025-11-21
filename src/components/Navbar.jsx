@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Search, Heart, ShoppingCart, Menu, X, Sun, Moon } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom"; // added useNavigate
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logona.png";
 import { setSearchQuery } from "../features/search/searchSlice";
-import { logoutUser } from "../features/auth/authSlice"; // import logout
+import { logoutUser } from "../features/auth/authSlice";
+import { logoutFirebase } from "../features/auth/authService";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -13,19 +14,21 @@ export default function Navbar() {
   const cartItems = useSelector((state) => state.cart.items);
   const favoriteItems = useSelector((state) => state.favorite.items);
   const searchQuery = useSelector((state) => state.search.query);
-  const user = useSelector((state) => state.auth.user); // get current user
+  const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // for redirect after logout
+  const navigate = useNavigate();
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle("dark");
   };
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    navigate("/"); // redirect to home
+  const handleLogout = async () => {
+    await logoutFirebase(); // Logout from Firebase
+    dispatch(logoutUser()); // Clear Redux
+    navigate("/"); // Redirect
+    setOpen(false); // Close mobile menu
   };
 
   const categoriesNav = [
@@ -40,13 +43,11 @@ export default function Navbar() {
       {/* TOP NAV */}
       <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
-        <Link to="/home">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg">
-              <img src={logo} className="w-6 h-6" alt="logo" />
-            </div>
-            <h1 className="text-xl font-semibold">ElectroHub</h1>
+        <Link to="/home" className="flex items-center gap-2">
+          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg">
+            <img src={logo} className="w-6 h-6" alt="logo" />
           </div>
+          <h1 className="text-xl font-semibold">ElectroHub</h1>
         </Link>
 
         {/* Desktop Search */}
@@ -63,7 +64,6 @@ export default function Navbar() {
 
         {/* Desktop Icons */}
         <div className="hidden md:flex items-center gap-6">
-          {/* Dark Mode */}
           <button onClick={toggleDarkMode} className="w-6 h-6 cursor-pointer">
             {darkMode ? (
               <Sun className="w-6 h-6" />
@@ -151,7 +151,6 @@ export default function Navbar() {
 
             {/* Mobile Icons */}
             <div className="flex items-center gap-6 pt-2">
-              {/* Dark Mode */}
               <button
                 onClick={toggleDarkMode}
                 className="w-6 h-6 cursor-pointer"
@@ -163,7 +162,6 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* Favorites */}
               <Link
                 to="/favorites"
                 className="relative cursor-pointer"
@@ -177,7 +175,6 @@ export default function Navbar() {
                 )}
               </Link>
 
-              {/* Cart */}
               <Link
                 to="/cart"
                 className="relative cursor-pointer"
@@ -192,7 +189,7 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile Login + Register or Logout */}
+            {/* Mobile Login / Logout */}
             <div className="flex flex-col gap-3 pt-2">
               {user ? (
                 <>
@@ -200,10 +197,7 @@ export default function Navbar() {
                     {user.displayName || user.email}
                   </span>
                   <button
-                    onClick={() => {
-                      handleLogout();
-                      setOpen(false);
-                    }}
+                    onClick={handleLogout}
                     className="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 transition text-center"
                   >
                     Logout
@@ -232,16 +226,20 @@ export default function Navbar() {
             {/* Mobile Nav Links */}
             <div className="flex flex-col gap-3 pt-4">
               {categoriesNav.map((cat, i) => (
-                <Link
+                <NavLink
                   key={i}
                   to={cat.path}
-                  className={`text-left hover:text-yellow-300 ${
-                    i === 0 ? "font-semibold" : ""
-                  }`}
+                  className={({ isActive }) =>
+                    `text-left transition ${
+                      isActive
+                        ? "font-semibold bg-clip-text text-transparent bg-blue-800"
+                        : "hover:text-blue-300"
+                    }`
+                  }
                   onClick={() => setOpen(false)}
                 >
                   {cat.name}
-                </Link>
+                </NavLink>
               ))}
             </div>
           </>
@@ -252,15 +250,19 @@ export default function Navbar() {
       <div className="hidden md:block bg-white/10 backdrop-blur-md border-t border-white/20">
         <div className="max-w-7xl mx-auto flex gap-10 px-6 py-3 text-sm">
           {categoriesNav.map((cat, i) => (
-            <Link
+            <NavLink
               key={i}
               to={cat.path}
-              className={`hover:text-yellow-300 transition hover:cursor-pointer ${
-                i === 0 ? "font-semibold" : ""
-              }`}
+              className={({ isActive }) =>
+                `transition ${
+                  isActive
+                    ? "font-semibold bg-clip-text text-transparent bg-blue-800"
+                    : "hover:text-blue-300"
+                }`
+              }
             >
               {cat.name}
-            </Link>
+            </NavLink>
           ))}
         </div>
       </div>

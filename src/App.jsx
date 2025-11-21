@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AOS from "aos";
-import "aos/dist/aos.css"; // Import AOS styles
+import "aos/dist/aos.css";
 
 // Pages
 import Home from "./components/Banner";
@@ -19,25 +19,13 @@ import CartPage from "./pages/CartPage";
 import FavoritePage from "./pages/FavoritePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { useDispatch } from "react-redux";
-import { auth } from "./firebase/firebaseConfig";
-import { logoutUser, setUser } from "./features/auth/authSlice";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderHistory from "./pages/OrderHistory";
 
 const App = () => {
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        dispatch(setUser(user));
-      } else {
-        dispatch(logoutUser());
-      }
-    });
-    return () => unsubscribe();
-  }, [dispatch]);
+    AOS.init({ duration: 800, once: true });
+  }, []);
 
   return (
     <BrowserRouter>
@@ -46,25 +34,25 @@ const App = () => {
         <Route
           path="/"
           element={
-            <div>
-              <Home data-aos="fade-up" />
-              <CategorySection data-aos="fade-up" />
-              <ServiceFeatures data-aos="fade-up" />
-              <HotDealsSection data-aos="fade-up" />
-              <PromoBanner data-aos="fade-up" />
-            </div>
+            <>
+              <Home />
+              <CategorySection />
+              <ServiceFeatures />
+              <HotDealsSection />
+              <PromoBanner />
+            </>
           }
         />
         <Route
           path="/home"
           element={
-            <div>
-              <Home data-aos="fade-up" />
-              <CategorySection data-aos="fade-up" />
-              <ServiceFeatures data-aos="fade-up" />
-              <HotDealsSection data-aos="fade-up" />
-              <PromoBanner data-aos="fade-up" />
-            </div>
+            <>
+              <Home />
+              <CategorySection />
+              <ServiceFeatures />
+              <HotDealsSection />
+              <PromoBanner />
+            </>
           }
         />
         <Route path="/product" element={<Product />} />

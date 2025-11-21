@@ -4,7 +4,6 @@ import {
   githubProvider,
   facebookProvider,
 } from "../../firebase/firebaseConfig";
-
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -13,31 +12,17 @@ import {
 } from "firebase/auth";
 
 // Register with Email
-export const registerWithEmail = (email, password) => {
-  return createUserWithEmailAndPassword(auth, email, password);
-};
+export const registerWithEmail = (email, password) =>
+  createUserWithEmailAndPassword(auth, email, password);
 
 // Login with Email
-export const loginWithEmail = (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password);
-};
+export const loginWithEmail = (email, password) =>
+  signInWithEmailAndPassword(auth, email, password);
 
-// Google Login
-export const loginWithGoogle = () => {
-  return signInWithPopup(auth, googleProvider);
-};
-
-// GitHub Login
-export const loginWithGithub = () => {
-  return signInWithPopup(auth, githubProvider);
-};
-
-// Facebook Login
-export const loginWithFacebook = () => {
-  return signInWithPopup(auth, facebookProvider);
-};
+// Social Logins
+export const loginWithGoogle = () => signInWithPopup(auth, googleProvider);
+export const loginWithGithub = () => signInWithPopup(auth, githubProvider);
+export const loginWithFacebook = () => signInWithPopup(auth, facebookProvider);
 
 // Logout
-export const logoutFirebase = () => {
-  return signOut(auth);
-};
+export const logoutFirebase = () => signOut(auth);
