@@ -1,3 +1,4 @@
+// src/pages/Register.jsx
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
@@ -8,6 +9,7 @@ import {
   loginWithFacebook,
 } from "../features/auth/authService";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Github, Mail } from "lucide-react";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -21,38 +23,52 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // Email registration (no auto-login)
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
+    if (!fullName || !email || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
       return;
     }
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+    setLoading(true);
     try {
-      const res = await registerWithEmail(email, password);
-      dispatch(setUser(res.user));
-      navigate(redirect); // redirect after registration
+      await registerWithEmail(email, password);
+      alert("Registration successful! Please log in.");
+      navigate(`/login${redirect !== "/" ? `?redirect=${redirect}` : ""}`);
     } catch (err) {
       alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Social login (auto-login)
   const handleProviderLogin = async (provider) => {
+    setLoading(true);
     try {
       let res;
       if (provider === "google") res = await loginWithGoogle();
       else if (provider === "github") res = await loginWithGithub();
       else if (provider === "facebook") res = await loginWithFacebook();
+
       dispatch(setUser(res.user));
-      navigate(redirect); // redirect after provider login
+      navigate(redirect); // redirect after social login
     } catch (err) {
       alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div
-      className="flex items-center justify-center p-4"
+      className="flex items-center justify-center p-10 "
       style={{
         background:
           "linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)), url('https://images.unsplash.com/photo-1556764346-5e4c1b4f96f2?auto=format&fit=crop&w=1400&q=80')",
@@ -73,7 +89,7 @@ export default function Register() {
           <img
             className="rounded-xl"
             src="https://static.vecteezy.com/system/resources/previews/012/024/324/non_2x/a-person-using-a-smartphone-to-fill-out-a-registration-form-registration-register-fill-in-personal-data-use-the-application-vector.jpg"
-            alt=""
+            alt="Registration illustration"
           />
         </div>
 
@@ -138,12 +154,36 @@ export default function Register() {
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 rounded-full hover:opacity-90 transition"
             >
-              Create Account
+              {loading ? "Processing..." : "Create Account"}
             </button>
           </form>
 
+          {/* Social login */}
+          <div className="grid grid-cols-3 gap-3 mt-6">
+            <button
+              onClick={() => handleProviderLogin("github")}
+              className="flex items-center justify-center gap-2 border-2 border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white font-semibold py-3 rounded-lg transition"
+            >
+              <Github size={20} /> GitHub
+            </button>
+            <button
+              onClick={() => handleProviderLogin("google")}
+              className="flex items-center justify-center gap-2 border-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3 rounded-lg transition"
+            >
+              <Mail size={20} /> Google
+            </button>
+            <button
+              onClick={() => handleProviderLogin("facebook")}
+              className="flex items-center justify-center gap-2 border-2 border-blue-600 text-white bg-blue-600 hover:bg-blue-700 hover:border-blue-700 font-semibold py-3 rounded-lg transition"
+            >
+              Facebook
+            </button>
+          </div>
+
+          {/* Link to login */}
           <div className="text-center mt-6">
             <span className="text-gray-600">Already have an account? </span>
             <a

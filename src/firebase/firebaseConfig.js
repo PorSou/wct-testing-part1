@@ -1,3 +1,4 @@
+// src/firebase/firebaseConfig.js
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -23,7 +24,15 @@ export const auth = getAuth(app);
 
 // Providers
 export const googleProvider = new GoogleAuthProvider();
-export const githubProvider = new GithubAuthProvider();
+googleProvider.setCustomParameters({
+  prompt: "select_account", // force Google account chooser
+});
+
+export const githubProvider = new GithubAuthProvider(); // GitHub will use existing session
+
 export const facebookProvider = new FacebookAuthProvider();
+facebookProvider.setCustomParameters({
+  auth_type: "reauthenticate", // force Facebook login screen
+});
 
 export default app;

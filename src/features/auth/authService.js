@@ -1,3 +1,4 @@
+// src/features/auth/authService.js
 import {
   auth,
   googleProvider,

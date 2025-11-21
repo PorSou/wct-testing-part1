@@ -1,3 +1,4 @@
+// src/features/auth/authSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
@@ -6,15 +7,20 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+      state.loading = false;
+      state.error = null;
     },
     logoutUser: (state) => {
       state.user = null;
+      state.loading = false;
+      state.error = null;
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
     setError: (state, action) => {
       state.error = action.payload;
+      state.loading = false;
     },
   },
 });
