@@ -62,7 +62,7 @@ export default function Login() {
 
   return (
     <div
-      className="flex items-center justify-center p-4 mt-10"
+      className="flex items-center justify-center p-4 mt-30"
       style={{
         background:
           "linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)), url('https://images.unsplash.com/photo-1556764346-5e4c1b4f96f2?auto=format&fit=crop&w=1400&q=80')",

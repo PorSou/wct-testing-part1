@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderHistory from "./pages/OrderHistory";
+import Profile from "./pages/Profile";
 
 const App = () => {
   useEffect(() => {
@@ -65,6 +66,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/history" element={<OrderHistory />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer />
     </BrowserRouter>

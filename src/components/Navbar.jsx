@@ -10,6 +10,7 @@ import { logoutFirebase } from "../features/auth/authService";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const cartItems = useSelector((state) => state.cart.items);
   const favoriteItems = useSelector((state) => state.favorite.items);
@@ -25,10 +26,11 @@ export default function Navbar() {
   };
 
   const handleLogout = async () => {
-    await logoutFirebase(); // Logout from Firebase
-    dispatch(logoutUser()); // Clear Redux
-    navigate("/"); // Redirect
-    setOpen(false); // Close mobile menu
+    await logoutFirebase();
+    dispatch(logoutUser());
+    navigate("/");
+    setOpen(false);
+    setProfileOpen(false);
   };
 
   const categoriesNav = [
@@ -63,7 +65,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Icons */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-6 relative">
           <button onClick={toggleDarkMode} className="w-6 h-6 cursor-pointer">
             {darkMode ? (
               <Sun className="w-6 h-6" />
@@ -92,20 +94,58 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Login/Register or Logout */}
-          {user ? (
-            <>
-              <span className="text-white font-medium">
-                {user.displayName || user.email}
-              </span>
+          {/* Profile image & dropdown */}
+          {user && (
+            <div className="relative">
               <button
-                onClick={handleLogout}
-                className="px-4 py-1.5 bg-red-600 rounded-full hover:bg-red-700 transition"
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="w-8 h-8 rounded-full overflow-hidden border-2 border-white"
               >
-                Logout
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  alt="profile"
+                  className="w-full h-full object-cover"
+                />
               </button>
-            </>
-          ) : (
+
+              {/* Dropdown */}
+              {profileOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg z-50">
+                  <div className="flex flex-col p-3 gap-2">
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={user.photoURL || "/default-avatar.png"}
+                        alt="profile"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                      <div>
+                        <p className="font-semibold">
+                          {user.displayName || "No Name"}
+                        </p>
+                        <p className="text-xs text-gray-500">{user.email}</p>
+                      </div>
+                    </div>
+                    <Link
+                      to="/profile"
+                      className="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-center"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Profile Details
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Login/Register if not logged in */}
+          {!user && (
             <>
               <Link
                 to="/login"
@@ -189,39 +229,78 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile Login / Logout */}
-            <div className="flex flex-col gap-3 pt-2">
-              {user ? (
-                <>
-                  <span className="text-white text-center font-medium">
-                    {user.displayName || user.email}
-                  </span>
+            {/* Mobile Login / Profile */}
+            {user ? (
+              <div className="flex flex-col gap-3 pt-2 items-center">
+                <div className="relative">
                   <button
-                    onClick={handleLogout}
-                    className="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 transition text-center"
+                    onClick={() => setProfileOpen(!profileOpen)}
+                    className="w-10 h-10 rounded-full overflow-hidden border-2 border-white"
                   >
-                    Logout
+                    <img
+                      src={user.photoURL || "/default-avatar.png"}
+                      alt="profile"
+                      className="w-full h-full object-cover"
+                    />
                   </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/register"
-                    className="px-4 py-2 bg-white rounded-lg text-purple-700 font-semibold hover:bg-gray-200 transition text-center"
-                    onClick={() => setOpen(false)}
-                  >
-                    Register
-                  </Link>
-                  <Link
-                    to="/login"
-                    className="px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition text-center"
-                    onClick={() => setOpen(false)}
-                  >
-                    Login
-                  </Link>
-                </>
-              )}
-            </div>
+
+                  {profileOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg z-50">
+                      <div className="flex flex-col p-3 gap-2">
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={user.photoURL || "/default-avatar.png"}
+                            alt="profile"
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                          <div>
+                            <p className="font-semibold">
+                              {user.displayName || "No Name"}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {user.email}
+                            </p>
+                          </div>
+                        </div>
+                        <Link
+                          to="/profile"
+                          className="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-center"
+                          onClick={() => {
+                            setProfileOpen(false);
+                            setOpen(false);
+                          }}
+                        >
+                          Profile Details
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/register"
+                  className="px-4 py-2 bg-white rounded-lg text-purple-700 font-semibold hover:bg-gray-200 transition text-center"
+                  onClick={() => setOpen(false)}
+                >
+                  Register
+                </Link>
+                <Link
+                  to="/login"
+                  className="px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition text-center"
+                  onClick={() => setOpen(false)}
+                >
+                  Login
+                </Link>
+              </>
+            )}
 
             {/* Mobile Nav Links */}
             <div className="flex flex-col gap-3 pt-4">
