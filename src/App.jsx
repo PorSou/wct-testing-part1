@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ChatBot from "./components/chatbot/ChatBot";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -22,15 +23,27 @@ import Register from "./pages/Register";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderHistory from "./pages/OrderHistory";
 import Profile from "./pages/Profile";
+import { allHotDeals } from "./data";
 
 const App = () => {
+  const [chatbotOpen, setChatbotOpen] = useState(false);
+
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
   }, []);
 
   return (
     <BrowserRouter>
-      <Navbar />
+      {/* Navbar with chatbot open button */}
+      <Navbar openChatbot={() => setChatbotOpen(true)} />
+
+      {/* Chatbot popup */}
+      <ChatBot
+        isOpen={chatbotOpen}
+        onClose={() => setChatbotOpen(false)}
+        products={allHotDeals}
+      />
+
       <Routes>
         <Route
           path="/"
@@ -68,6 +81,7 @@ const App = () => {
         <Route path="/history" element={<OrderHistory />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
+
       <Footer />
     </BrowserRouter>
   );

@@ -7,10 +7,11 @@ import { setSearchQuery } from "../features/search/searchSlice";
 import { logoutUser } from "../features/auth/authSlice";
 import { logoutFirebase } from "../features/auth/authService";
 
-export default function Navbar() {
+export default function Navbar({ openChatbot }) {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+  const [desktopProfileOpen, setDesktopProfileOpen] = useState(false);
+  const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
 
   const cartItems = useSelector((state) => state.cart.items);
   const favoriteItems = useSelector((state) => state.favorite.items);
@@ -30,7 +31,8 @@ export default function Navbar() {
     dispatch(logoutUser());
     navigate("/");
     setOpen(false);
-    setProfileOpen(false);
+    setDesktopProfileOpen(false);
+    setMobileProfileOpen(false);
   };
 
   const categoriesNav = [
@@ -66,6 +68,7 @@ export default function Navbar() {
 
         {/* Desktop Icons */}
         <div className="hidden md:flex items-center gap-6 relative">
+          {/* Dark Mode */}
           <button onClick={toggleDarkMode} className="w-6 h-6 cursor-pointer">
             {darkMode ? (
               <Sun className="w-6 h-6" />
@@ -94,11 +97,19 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Profile image & dropdown */}
-          {user && (
+          {/* Chatbot */}
+          <button
+            onClick={openChatbot}
+            className="px-3 py-1.5 bg-white/20 rounded-full hover:bg-white/30 transition text-sm font-semibold"
+          >
+            🤖 AI
+          </button>
+
+          {/* Profile */}
+          {user ? (
             <div className="relative">
               <button
-                onClick={() => setProfileOpen(!profileOpen)}
+                onClick={() => setDesktopProfileOpen(!desktopProfileOpen)}
                 className="w-8 h-8 rounded-full overflow-hidden border-2 border-white"
               >
                 <img
@@ -108,8 +119,7 @@ export default function Navbar() {
                 />
               </button>
 
-              {/* Dropdown */}
-              {profileOpen && (
+              {desktopProfileOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg z-50">
                   <div className="flex flex-col p-3 gap-2">
                     <div className="flex items-center gap-2">
@@ -128,7 +138,7 @@ export default function Navbar() {
                     <Link
                       to="/profile"
                       className="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-center"
-                      onClick={() => setProfileOpen(false)}
+                      onClick={() => setDesktopProfileOpen(false)}
                     >
                       Profile Details
                     </Link>
@@ -142,10 +152,7 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-          )}
-
-          {/* Login/Register if not logged in */}
-          {!user && (
+          ) : (
             <>
               <Link
                 to="/login"
@@ -192,6 +199,16 @@ export default function Navbar() {
             {/* Mobile Icons */}
             <div className="flex items-center gap-6 pt-2">
               <button
+                onClick={() => {
+                  openChatbot();
+                  setOpen(false);
+                }}
+                className="px-3 py-1 bg-white/20 rounded-full text-sm"
+              >
+                🤖 AI
+              </button>
+
+              <button
                 onClick={toggleDarkMode}
                 className="w-6 h-6 cursor-pointer"
               >
@@ -229,12 +246,12 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile Login / Profile */}
+            {/* Mobile Profile / Auth */}
             {user ? (
               <div className="flex flex-col gap-3 pt-2 items-center">
                 <div className="relative">
                   <button
-                    onClick={() => setProfileOpen(!profileOpen)}
+                    onClick={() => setMobileProfileOpen(!mobileProfileOpen)}
                     className="w-10 h-10 rounded-full overflow-hidden border-2 border-white"
                   >
                     <img
@@ -244,7 +261,7 @@ export default function Navbar() {
                     />
                   </button>
 
-                  {profileOpen && (
+                  {mobileProfileOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg z-50">
                       <div className="flex flex-col p-3 gap-2">
                         <div className="flex items-center gap-2">
@@ -266,7 +283,7 @@ export default function Navbar() {
                           to="/profile"
                           className="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-center"
                           onClick={() => {
-                            setProfileOpen(false);
+                            setMobileProfileOpen(false);
                             setOpen(false);
                           }}
                         >
